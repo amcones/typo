@@ -10,6 +10,17 @@
 <meta name="apple-mobile-web-app-title" content="Uli's blog" />
 <link rel="manifest" href="/site.webmanifest" />
 
+{{ if site.Params.Copyright }}
+<script>
+document.addEventListener('copy', function (e) {
+  const selectedText = window.getSelection().toString();
+  const copyrightNotice = `\n\n{{ site.Params.Copyright | safeJS }}`;
+  e.clipboardData.setData('text/plain', selectedText + copyrightNotice);
+  e.preventDefault();
+});
+</script>
+{{ end }}
+
 {{ with .OutputFormats.Get "rss" -}}
 {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
 {{ end }}
